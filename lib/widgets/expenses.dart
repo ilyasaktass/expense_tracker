@@ -26,12 +26,24 @@ class _ExpensesState extends State<Expenses> {
         category: Category.leisure),
   ];
 
-  void _openAddExpenseOerlay() {
+ void saveExpense(Expense expense) {
+  setState(() {
+    _reqisteredExpenses.add(expense);
+  });
+ }
+ void removeExpense(Expense expense){
+  setState(() {
+    _reqisteredExpenses.remove(expense);
+  });
+ }
+  void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
-      builder: (ctx) => const NewExpense(),
+      builder: (ctx) =>  NewExpense(saveExpense:saveExpense),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +58,7 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         children: [
           const Text('The Chart...'),
-          Expanded(child: ExpensesList(expenses: _reqisteredExpenses))
+          Expanded(child: ExpensesList(expenses: _reqisteredExpenses,removeExpense:removeExpense))
         ],
       ),
     );
