@@ -26,27 +26,50 @@ class _ExpensesState extends State<Expenses> {
         category: Category.leisure),
   ];
 
- void saveExpense(Expense expense) {
-  setState(() {
-    _reqisteredExpenses.add(expense);
-  });
- }
- void removeExpense(Expense expense){
-  setState(() {
-    _reqisteredExpenses.remove(expense);
-  });
- }
+  void saveExpense(Expense expense) {
+    setState(() {
+      _reqisteredExpenses.add(expense);
+    });
+  }
+
+  void removeExpense(Expense expense) {
+    final expenseIndex = _reqisteredExpenses.indexOf(expense);
+    setState(() {
+      _reqisteredExpenses.remove(expense);
+    });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: const Duration(seconds: 3),
+      content: const Text('Expense deleted.'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          setState(() {
+            _reqisteredExpenses.insert(expenseIndex, expense);
+          });
+        },
+      ),
+    ));
+  }
+
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (ctx) =>  NewExpense(saveExpense:saveExpense),
+      builder: (ctx) => NewExpense(saveExpense: saveExpense),
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
+    Widget mainContent = const Center(
+      child: Text('No expenses found. Start adding some!'),
+    );
+
+    if (_reqisteredExpenses.isNotEmpty) {
+      mainContent = ExpensesList(
+          expenses: _reqisteredExpenses, removeExpense: removeExpense);
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter ExpenseTracker'),
@@ -56,10 +79,7 @@ class _ExpensesState extends State<Expenses> {
         ],
       ),
       body: Column(
-        children: [
-          const Text('The Chart...'),
-          Expanded(child: ExpensesList(expenses: _reqisteredExpenses,removeExpense:removeExpense))
-        ],
+        children: [const Text('The Chart...'), Expanded(child: mainContent)],
       ),
     );
   }
