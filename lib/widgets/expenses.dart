@@ -76,25 +76,31 @@ class _ExpensesState extends State<Expenses> {
       mainContent = ExpensesList(
           expenses: _reqisteredExpenses, removeExpense: removeExpense);
     }
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter ExpenseTracker'),
-        actions: [
-          IconButton(
-              onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add)),
-              
-          IconButton(
-            onPressed: toggleThemeMode,
-            icon: Icon(
-              Theme.of(context).brightness == Brightness.light
-                  ? Icons.light_mode
-                  : Icons.dark_mode,
-            ),
-          )
-        ],
-      ),
-      body: Column(
-        children: [const Text('The Chart...'), Expanded(child: mainContent)],
+    return AnimatedTheme(
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+      data: Theme.of(context),
+      
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Flutter ExpenseTracker'),
+          actions: [
+            IconButton(
+                onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add)),
+                
+            IconButton(
+              onPressed: toggleThemeMode,
+              icon: Icon(
+                Theme.of(context).brightness == Brightness.light
+                    ? Icons.light_mode
+                    : Icons.dark_mode,
+              ),
+            )
+          ],
+        ),
+        body: Column(
+          children: [const Text('The Chart...'), Expanded(child: mainContent)],
+        ),
       ),
     );
   }

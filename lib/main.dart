@@ -10,7 +10,6 @@ var kDarkColorScheme = ColorScheme.fromSeed(
 void main() {
   runApp(ExpenseTrackerApp());
 }
-
 class ExpenseTrackerApp extends StatefulWidget {
   @override
   _ExpenseTrackerAppState createState() => _ExpenseTrackerAppState();
