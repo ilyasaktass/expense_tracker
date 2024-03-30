@@ -1,3 +1,4 @@
+import 'package:expense_tracker/widgets/chart/chart.dart';
 import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
@@ -26,6 +27,16 @@ class _ExpensesState extends State<Expenses> {
         amount: 15.69,
         date: DateTime.now(),
         category: Category.leisure),
+    Expense(
+        title: 'Travel',
+        amount: 11.99,
+        date: DateTime.now(),
+        category: Category.travel),
+    Expense(
+        title: 'Food',
+        amount: 15.69,
+        date: DateTime.now(),
+        category: Category.food),
   ];
 
   void saveExpense(Expense expense) {
@@ -80,14 +91,12 @@ class _ExpensesState extends State<Expenses> {
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
       data: Theme.of(context),
-      
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Flutter ExpenseTracker'),
           actions: [
             IconButton(
                 onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add)),
-                
             IconButton(
               onPressed: toggleThemeMode,
               icon: Icon(
@@ -99,7 +108,10 @@ class _ExpensesState extends State<Expenses> {
           ],
         ),
         body: Column(
-          children: [const Text('The Chart...'), Expanded(child: mainContent)],
+          children: [
+            Chart(expenses: _reqisteredExpenses),
+            Expanded(child: mainContent),
+          ],
         ),
       ),
     );
