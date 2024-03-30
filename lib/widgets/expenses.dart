@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Expenses extends StatefulWidget {
-  const Expenses({super.key});
+  const Expenses({Key? key, required this.toggleThemMode}) : super(key: key);
+  final void Function() toggleThemMode;
   @override
   State<Expenses> createState() {
     return _ExpensesState();
   }
 }
+
 // test icin yeni comment
 class _ExpensesState extends State<Expenses> {
   final List<Expense> _reqisteredExpenses = [
@@ -30,6 +32,10 @@ class _ExpensesState extends State<Expenses> {
     setState(() {
       _reqisteredExpenses.add(expense);
     });
+  }
+
+  void toggleThemeMode() {
+    widget.toggleThemMode();
   }
 
   void removeExpense(Expense expense) {
@@ -75,7 +81,16 @@ class _ExpensesState extends State<Expenses> {
         title: const Text('Flutter ExpenseTracker'),
         actions: [
           IconButton(
-              onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add))
+              onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add)),
+              
+          IconButton(
+            onPressed: toggleThemeMode,
+            icon: Icon(
+              Theme.of(context).brightness == Brightness.light
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+            ),
+          )
         ],
       ),
       body: Column(
