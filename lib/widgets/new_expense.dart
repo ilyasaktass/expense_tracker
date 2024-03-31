@@ -62,51 +62,56 @@ class _NewExpenseState extends State<NewExpense> {
     Navigator.pop(context);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10,48,10,16),
-      child: Expanded(
-        child: Column(
-          children: [
-            TextField(
-              controller: _titleController,
-              maxLength: 50,
-              decoration:  InputDecoration(
-                label: Text('Title' , style: Theme.of(context).textTheme.titleLarge,),
-              ),
+@override
+Widget build(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(10,48,10,16),
+    child: Column(
+        children: [
+          TextField(
+            controller: _titleController,
+            maxLength: 50,
+            decoration:  InputDecoration(
+              label: Text('Title' , style: Theme.of(context).textTheme.titleLarge,),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _amountController,
-                    keyboardType: TextInputType.number,
-                    decoration:  InputDecoration(
-                      prefixText: '\$ ',
-                      label: Text('Amount' , style: Theme.of(context).textTheme.titleLarge,),
-                    ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType: TextInputType.number,
+                  decoration:  InputDecoration(
+                    prefixText: '\$ ',
+                    label: Text('Amount' , style: Theme.of(context).textTheme.titleLarge,),
                   ),
                 ),
-                const SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                    child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(_selectedDate == null
-                        ? 'No date selected'
-                        : formatter.format(_selectedDate!) , style: Theme.of(context).textTheme.titleLarge,),
-                    IconButton(
-                      onPressed: _presentDatePicker,
-                      icon: const Icon(Icons.calendar_month),
-                    ),
-                  ],
-                )),
-              ],
-            ),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                  child: Column( // Add this
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(_selectedDate == null
+                              ? 'No date selected'
+                              : formatter.format(_selectedDate!) , style: Theme.of(context).textTheme.titleLarge,),
+                          IconButton(
+                            onPressed: _presentDatePicker,
+                            icon: const Icon(Icons.calendar_month),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+            ],
+          ),
+          // ... other code remains the same
+          
             const SizedBox(height: 16,),
             Row(
               children: [
@@ -141,9 +146,8 @@ class _NewExpenseState extends State<NewExpense> {
                     child: const Text('Save Expense'))
               ],
             )
-          ],
-        ),
+        ],
       ),
-    );
-  }
+  );
+}
 }
